@@ -1,11 +1,11 @@
 import "./Register.scss";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+// import axios from "axios";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import { registerNewUser } from "../../services/userService";
 
-const Register = (pros) => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
@@ -62,7 +62,7 @@ const Register = (pros) => {
     let check = isValidInput();
     if (check === true) {
       let response = await registerNewUser(email, phone, username, password);
-      let serverData = response.data; //thông báo đi từ đây
+      let serverData = response; //thông báo đi từ đây
       if (serverData.EC === 0) {
         toast.success(serverData.EM);
         history.push("/login");
@@ -77,8 +77,8 @@ const Register = (pros) => {
       <div className="container">
         <div className="row px-3 px-sm-0">
           <div className="content-left col-12 col-sm-7 py-3">
-            <div className="brand">Bin EC</div>
-            <div className="detail d-none d-sm-block">learning evreything</div>
+            <div className="brand">SOCIAL WEB</div>
+            <div className="detail d-none d-sm-block">Welcome to my web!</div>
           </div>
 
           <div className="content-right col-12 col-sm-5 d-flex flex-column gap-3 py-3">
