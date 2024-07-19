@@ -1,5 +1,5 @@
 import "./Register.scss";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -77,7 +77,11 @@ const Register = () => {
       <div className="container">
         <div className="row px-3 px-sm-0">
           <div className="content-left col-12 col-sm-7 py-3">
-            <div className="brand">SOCIAL WEB</div>
+          <div className="brand">
+              <Link to="/">
+                <span title="Return to HomePage">REACT APP</span>
+              </Link>
+            </div>
             <div className="detail d-none d-sm-block">Welcome to my web!</div>
           </div>
 

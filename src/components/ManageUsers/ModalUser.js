@@ -126,8 +126,6 @@ const ModalUser = (props) => {
         let _validInput = _.cloneDeep(validInputDefault);
         _validInput[res.DT] = false;
         setValidInput(_validInput);
-      } else {
-        toast.success("Successfully!");
       }
     }
   };
@@ -245,11 +243,12 @@ const ModalUser = (props) => {
                 }
                 value={userData.sex}
               >
-                <option defaultValue="Mail">Mail</option>
-                <option value="Femail">Femail</option>
+                <option value="Mail">Mail</option>
+                <option defaultValue="Femail">Femail</option>
                 <option value="Other">Other</option>
               </select>
             </div>
+
             <div className="col-12 col-sm-6 form-group">
               <label>
                 Group (<span className="red">*</span>)

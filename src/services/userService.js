@@ -1,5 +1,5 @@
 // import axios from "axios";
-import axios from '../setup/axios';
+import axios from "../setup/axios";
 
 const registerNewUser = (email, phone, username, password) => {
   return axios.post("/api/register", {
@@ -18,9 +18,7 @@ const loginUser = (valueLogin, password) => {
 };
 
 const fetchAllUsers = (page, limit) => {
-  return axios.get(
-    `/api/user/read?page=${page}&limit=${limit}`
-  );
+  return axios.get(`/api/user/read?page=${page}&limit=${limit}`);
 };
 
 const deleteUser = (user) => {
@@ -40,6 +38,14 @@ const createNewUser = (userData) => {
 const updateUser = (userData) => {
   return axios.put("/api/user/update", { ...userData });
 };
+
+const getUserAccount = () => {
+  return axios.get("/api/account");
+};
+
+const logoutUser = () => {
+  return axios.post("/api/logout");
+};
 export {
   registerNewUser,
   loginUser,
@@ -48,4 +54,6 @@ export {
   fetchGroup,
   createNewUser,
   updateUser,
+  getUserAccount,
+  logoutUser,
 };

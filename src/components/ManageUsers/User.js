@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import { fetchAllUsers, deleteUser } from "../../services/userService";
 import ReactPaginate from "react-paginate";
@@ -22,16 +22,15 @@ const Users = (props) => {
   const [isShowModalUser, setIsShowModalUser] = useState(false);
   const [actionModalUser, setActionModalUser] = useState("CREATE");
 
-  useEffect(() => {
-    fetchUsers();
-  }, [currentPage]);
-
   const fetchUsers = async () => {
-    let response = await fetchAllUsers(currentPage, currentLimit);
-    console.log("check response", response)
-    if (response && response.EC === 0) {
-      setTotalPages(response.DT.totalPages);
-      setListUsers(response.DT.users);
+    try {
+      let response = await fetchAllUsers(currentPage, currentLimit);
+      if (response && response.EC === 0) {
+        setTotalPages(response.DT.totalPages);
+        setListUsers(response.DT.users);
+      }
+    } catch (error) {
+      console.error("Đã xảy ra lỗi:", error.message);
     }
   };
 
@@ -73,6 +72,9 @@ const Users = (props) => {
   const handleRefresh = async () => {
     await fetchUsers();
   };
+  useEffect(() => {
+    fetchUsers();
+  }, [currentPage]);
 
   return (
     <>
@@ -100,7 +102,6 @@ const Users = (props) => {
               </button>
             </div>
           </div>
-
           <div className="user-body">
             <table className="table table-hover table-bordered">
               <thead>
@@ -108,9 +109,9 @@ const Users = (props) => {
                   <th scope="col">No</th>
                   <th scope="col">Email</th>
                   <th scope="col">Username</th>
+                  <th scope="col">Group</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Action</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -124,6 +125,7 @@ const Users = (props) => {
                           </td>
                           <td>{item.email}</td>
                           <td>{item.username}</td>
+                          <td>{item.Group.name}</td>
                           <td>{item.phone}</td>
                           <td>
                             <button
@@ -153,7 +155,6 @@ const Users = (props) => {
               </tbody>
             </table>
           </div>
-
           {totalPages > 0 && (
             <div className="user-footer">
               <ReactPaginate

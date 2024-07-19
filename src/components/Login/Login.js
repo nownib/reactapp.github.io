@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./Login.scss";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/userService";
+import { UserContext } from "../../context/UserContext";
 
-const Login = () => {
+const Login = (props) => {
+  const { user, loginContext } = useContext(UserContext);
+
   let history = useHistory();
 
   const [valueLogin, setValueLogin] = useState("");
@@ -35,13 +38,21 @@ const Login = () => {
 
     let response = await loginUser(valueLogin, password);
     if (response && +response.EC === 0) {
+      let groupWithRoles = response.DT.groupWithRoles;
+      let email = response.DT.email;
+      let username = response.DT.username;
+      let token = response.DT.access_token;
+
       let data = {
         isAuthenticated: true,
-        token: "fake token",
+        token,
+        account: { groupWithRoles, email, username },
       };
-      sessionStorage.setItem("account", JSON.stringify(data));
+      localStorage.setItem("jwt", token);
+      // sessionStorage.setItem("account", JSON.stringify(data));
+      loginContext(data);
       history.push("/users");
-      window.location.reload();
+      // window.location.reload();
     }
     if (response && +response.EC !== 0) {
       toast.error(response.EM);
@@ -55,9 +66,8 @@ const Login = () => {
     }
   };
 
-  useEffect(()=>{
-    let session = sessionStorage.getItem("account");
-    if (session) {
+  useEffect(() => {
+    if (user && user.isAuthenticated) {
       history.push("/");
     }
   }, []);
@@ -67,7 +77,11 @@ const Login = () => {
       <div className="container">
         <div className="row px-3 px-sm-0">
           <div className="content-left col-12 col-sm-7 py-3">
-            <div className="brand">SOCIAL WEB</div>
+            <div className="brand">
+              <Link to="/">
+                <span title="Return to HomePage">REACT APP</span>
+              </Link>
+            </div>
             <div className="detail d-none d-sm-block">Welcome to my web!</div>
           </div>
 
